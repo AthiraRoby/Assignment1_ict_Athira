@@ -24,6 +24,9 @@ function validate()
     var psr=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[A-Za-z0-9\.-@#!$%*%]{8,}$/;
     var phDigit=/^\d{10}$/;
     var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    var e=1;
+    var p=1;
+    var w=1;
 
     if(signupEmail.value.trim()==""||signupSetPwd.value.trim()==""||signupConPwd.value.trim()==""||signupPh.value.trim()=="")
     {   
@@ -32,33 +35,62 @@ function validate()
         signupConPwd.style.border="2px solid red";
         signupPh.style.border="2px solid red";
         
-        window.alert("All required fields are not entered!!!");
+        window.alert("All highlighted fields are required. It must be entered for validation");
         return false;
     }
-
-
-
     else if(res.test(signupEmail.value)!="1")
     {
         signupEmailError.innerHTML="Email Is Invalid";
         signupEmailError.style.color="red";
+        e=2;
         return false;
     }
+   
+
     else if(phoneno.test(signupPh.value)!="1"&& phDigit.test(signupPh.value)!="1")
     {   signupPhError.innerHTML="Please enter a valid phone number ";
         signupPhError.style.color="red";
+        p=2;
+        if(e==1){ 
+            signupEmailError.innerHTML="valid";
+            signupEmailError.style.color="green";
+            signupEmail.style.border="1px solid green";
+        }
         return false;
     }
+    
+
     else if(psr.test(signupSetPwd.value)!="1")
     {   signupSetPwdError.innerHTML="Password should be of minimum 8 characters, at least one uppercase, and one lower case, must contain at least one number";
         signupSetPwdError.style.color="red";
+        if(e==1){ 
+            signupEmailError.innerHTML="valid";
+            signupEmailError.style.color="green";
+            signupEmail.style.border="1px solid green";}
+        if(p==1){signupPhError.innerHTML="Valid ";
+        signupPhError.style.color="green";
+        signupPh.style.border="1px solid green";
+        }
+        w=2;
         return false;
     }
+    
+
     else  if(signupSetPwd.value!=signupConPwd.value)
     {   signupConPwdError.innerHTML="Passwords Doesnt Match, Please Re-enter";
         signupConPwdError.style.color="red";
+        if(e==1){ 
+            signupEmailError.innerHTML="valid";
+            signupEmailError.style.color="green"; signupEmail.style.border="1px solid green";}
+        if(p==1){signupPhError.innerHTML="Valid ";
+                signupPhError.style.color="green"; signupPh.style.border="1px solid green" }
+        if(w==1){
+            signupSetPwdError.innerHTML="Valid";
+            signupSetPwdError.style.color="green";signupSetPwd.style.border="1px solid green";
+        }
         return false;
     }
+    
     else
     {
         window.alert("Validation Success");
@@ -73,7 +105,7 @@ function loginvalidate()
     
     var reg = /^([A-Za-z0-9\.-]+)@([A-Za-z0-9\-]+).([a-z]{2,3})(.[a-z]{2,3})?$/;
     var psr=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[A-Za-z0-9\.-@#!$%*%]{8,}$/;
-
+    var em=1;
     if(LoginEmail.value.trim()==""||LoginPwd.value.trim()=="")
     {   
         if(LoginEmail.value.trim()=="")LoginEmail.style.border="2px solid red";
@@ -87,11 +119,15 @@ function loginvalidate()
     {
         LoginEmailError.innerHTML="Invalid Email!";
         LoginEmailError.style.color="red";
+        em=2;
         return false;
     }
     else if(psr.test(LoginPwd.value)!="1")
     {   LoginPwdError.innerHTML="Invalid Password!";
         LoginPwdError.style.color="red";
+        if(em==1){LoginEmailError.innerHTML="Valid";
+        LoginEmailError.style.color="green";LoginEmail.style.border="1px solid green"
+        }
         return false;
     }
     else
